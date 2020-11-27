@@ -30,6 +30,17 @@ parser.add_argument(
     help="Day of work during the week : Monday:0, Tu:1, ... Sat:5, Sun:6"
     )
 
+parser.add_argument(
+    "--km_by_car",
+    type=float, 
+    nargs="?",
+    help="kilometers by car for a single travel from home to work"
+)
+
+FUEL_PER_100KM = 8.0
+PRICE_FUEL = 1.5
+PRICE_PER_KILOMETER = 0.5
+
 
 def main():
     args = parser.parse_args()
@@ -68,6 +79,18 @@ def main():
                 args.price_pass,
                 total_price_travel
             ))
+
+    if args.km_by_car is not None:
+        print("In comparison you would pay by car :")
+
+        print("Per Day :")
+        print("Only Fuel : {:.2f}".format(args.km_by_car * 2/100*FUEL_PER_100KM * PRICE_FUEL) )
+        print("Estimation at 0.5 CHF the km : {:.2f}".format(args.km_by_car*2*PRICE_PER_KILOMETER))
+
+        print("Total : ")
+        print("Only Fuel : {:.2f}".format(args.km_by_car * 2/100*FUEL_PER_100KM * PRICE_FUEL * len(days_of_travel)) )
+        print("Estimation at 0.5 CHF the km : {:.2f}".format(args.km_by_car*2*PRICE_PER_KILOMETER * len(days_of_travel)))
+
 
 if __name__ == "__main__":
     print("")
